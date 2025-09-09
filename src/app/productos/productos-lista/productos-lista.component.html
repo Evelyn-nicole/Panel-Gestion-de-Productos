@@ -1,0 +1,95 @@
+<!-- productos-lista: Muestra los productos.-->
+<!-- Lista de productos mostrada en una tabla con Bootstrap -->
+
+<div class="container mt-5">
+  <h2 class="mb-4">Lista de Productos</h2>
+  <table class="table table-bordered">
+    <thead class="table-light">
+      <tr>
+        <!-- ID -->
+        <th (click)="ordenar.emit('id')" style="cursor: pointer">
+          ID
+          <span>
+            <ng-container *ngIf="ordenColumna === 'id'; else noOrden">
+              {{ ordenAscendente ? '▲' : '▼' }}
+            </ng-container>
+            <ng-template #noOrden> ⇅</ng-template>
+          </span>
+        </th>
+
+        <!-- Nombre -->
+        <th (click)="ordenar.emit('nombre')" style="cursor: pointer">
+          Nombre
+          <span>
+            <ng-container *ngIf="ordenColumna === 'nombre'; else noOrden">
+              {{ ordenAscendente ? '▲' : '▼' }}
+            </ng-container>
+            <ng-template #noOrden> ⇅</ng-template>
+          </span>
+        </th>
+
+        <!-- Precio -->
+        <th (click)="ordenar.emit('precio')" style="cursor: pointer">
+          Precio
+          <span>
+            <ng-container *ngIf="ordenColumna === 'precio'; else noOrden">
+              {{ ordenAscendente ? '▲' : '▼' }}
+            </ng-container>
+            <ng-template #noOrden> ⇅</ng-template>
+          </span>
+        </th>
+
+        <!-- Stock -->
+        <th (click)="ordenar.emit('stock')" style="cursor: pointer">
+          Stock
+          <span>
+            <ng-container *ngIf="ordenColumna === 'stock'; else noOrden">
+              {{ ordenAscendente ? '▲' : '▼' }}
+            </ng-container>
+            <ng-template #noOrden> ⇅</ng-template>
+          </span>
+        </th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let producto of productos" >
+        
+        <td>{{ producto.id }}</td>
+        <td>{{ producto.nombre }}</td>
+        <td>{{ producto.precio | currency:'CLP':'symbol' }}</td>
+        <td>
+
+          <!-- Sin stock -->
+          <span *ngIf="producto.stock === 0" class="text-danger fw-bold">
+            Sin stock
+          </span>
+          <!-- Bajo stock -->
+          <span *ngIf="producto.stock !== null && producto.stock >= 5 && producto.stock <= 24"
+            class="text-warning fw-semibold">
+            Bajo stock: {{ producto.stock }}
+          </span>
+          <!-- Stock alto -->
+          <span *ngIf="producto.stock !== null && producto.stock > 25" class="text-success fw-semibold">
+            Buen stock:{{ producto.stock }}
+          </span>
+          <!-- Stock menor a 5 pero distinto de 0 (opcional, por si hay stock 1-4) -->
+          <span *ngIf="producto.stock !== null && producto.stock > 0 && producto.stock < 5"
+            class="text-secondary fw-semibold">
+            Muy bajo: {{ producto.stock }}
+          </span>
+
+        </td>
+        <td>
+          <button class="btn btn-warning btn-sm me-2" (click)="seleccionarProducto(producto)">
+            🖊️ Editar
+          </button>
+          <button class="btn btn-danger btn-sm" (click)="eliminarProducto(producto.id)">
+            🗑️ Eliminar
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

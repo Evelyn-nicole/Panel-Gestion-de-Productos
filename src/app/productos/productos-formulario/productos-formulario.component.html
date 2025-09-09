@@ -1,0 +1,58 @@
+<!-- productos-formulario: Agrega productos. -->
+<!-- Formulario con Bootstrap y validaciones visuales -->
+
+
+<div class="container mt-4">
+  <h3>Agregar Producto</h3>
+
+  <!-- Mensaje de éxito/error -->
+  <div *ngIf="mensajeExito" class="alert alert-success">
+    {{ mensajeExito }}
+  </div>
+  <div *ngIf="mensajeError" class="alert alert-danger">
+    {{ mensajeError }}
+  </div>
+
+
+  <form (ngSubmit)="agregarProducto(formulario)" #formulario="ngForm">
+    <!--Campo Nombre -->
+    <div class="mb-3">
+      <label for="nombre" class="form-label">Nombre</label>
+      <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Agrega nombre del Producto"
+        [(ngModel)]="nuevoProducto.nombre" required #nombreCtrl="ngModel" />
+      <div class="text-danger" *ngIf="nombreCtrl.invalid && nombreCtrl.touched">
+        El nombre es obligatorio.
+      </div>
+    </div>
+
+    <!-- Campo Precio -->
+    <div class="mb-3">
+      <label for="precio" class="form-label">Precio</label>
+      <input type="number" class="form-control" id="precio" placeholder="$19990" name="precio"
+        [(ngModel)]="nuevoProducto.precio" required min="1" #precioCtrl="ngModel" />
+      <div class="text-danger" *ngIf="precioCtrl.invalid && precioCtrl.touched">
+        El precio debe ser mayor a 0.
+      </div>
+    </div>
+
+    <!-- Campo Stock -->
+    <div class="mb-3">
+      <label for="stock" class="form-label">Stock</label>
+      <input type="number" class="form-control" id="stock" name="stock" placeholder="100"
+        [(ngModel)]="nuevoProducto.stock" required min="0" #stockCtrl="ngModel" />
+      <div class="text-danger" *ngIf="stockCtrl.invalid && stockCtrl.touched">
+        El stock debe ser al menos 0.
+      </div>
+    </div>
+
+    <button type="submit" class="btn" [ngClass]="productoParaEditar ? 'btn-primary' : 'btn-success'">
+      {{ productoParaEditar ? 'Actualizar Producto' : 'Agregar Producto' }}
+    </button>
+
+    <!-- Botón Cancelar solo visible cuando estás editando -->
+    <button type="button" class="btn btn-danger ms-2" *ngIf="productoParaEditar" (click)="cancelarEdicion()">
+      Cancelar
+    </button>
+
+  </form>
+</div>

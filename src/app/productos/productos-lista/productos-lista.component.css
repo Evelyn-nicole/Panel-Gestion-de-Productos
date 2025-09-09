@@ -1,0 +1,49 @@
+/* CSS Tabla contenido lista de Productos */
+
+/* Diseño tabla geneal  */
+table {
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden; 
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+
+th span {
+  margin-left: 6px;
+  color: #2e2a2ada;
+  font-size: 0.9em;
+}
+
+/* Texto seccion encabezado tabla lista productos */
+thead th {
+  background-color: #f8f9fa;
+  text-align: center;
+  vertical-align: middle;
+  font-weight: 600;
+}
+
+/* Texto contenido en tabla lista productos */
+tbody td {
+  text-align: center;
+  vertical-align: middle;
+  font-size: 0.95rem;
+}
+
+/* Iconos de ordenamiento más separados detro de la tabla */
+th span {
+  margin-left: 5px;
+  font-size: 0.8rem;
+}
+
+/* Botones Editar y */
+button.btn {
+  border-radius: 20px;
+  padding: 4px 12px;
+  transition: all 0.3s ease;
+}
+
+button.btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}

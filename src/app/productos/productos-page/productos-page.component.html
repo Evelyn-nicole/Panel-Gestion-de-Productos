@@ -1,0 +1,47 @@
+
+
+<div class="container mt-4">
+  <h2 class="mb-4">Gestión de Productos</h2>
+
+  <!-- Formulario para agregar y editar productos -->
+  <app-productos-formulario 
+    (onAgregarProducto)="agregarProducto($event)" 
+    (onEditarProducto)="editarProducto($event)"
+    [productoParaEditar]="productoParaEditar">
+  </app-productos-formulario>
+
+  <hr>
+
+  <!-- Filtro de búsqueda -->
+  <div class="mb-3">
+    <input 
+    type="text" 
+    class="form-control" 
+    placeholder="Buscar producto por nombre..." 
+    [(ngModel)]="filtroNombre" 
+    />
+  </div>
+
+  <!-- Este mensaje se muestra abajo o donde están los productos -->
+  <div *ngIf="mensajeExitoGeneral" class="alert alert-success">
+    {{ mensajeExitoGeneral }}
+  </div>
+
+  <!-- Este mensaje se muestra arriba del formulario -->
+  <div *ngIf="mensajeExito" class="alert alert-success">
+    {{ mensajeExito }}
+  </div>
+
+
+
+  <!-- Lista de productos -->
+  <app-productos-lista 
+    [productos]="productosFiltrados" 
+    [ordenColumna]="ordenActual"
+    [ordenAscendente]="ordenAscendente"
+    (onEliminarProducto)="eliminarProducto($event)"
+    (editar)="seleccionarProductoParaEditar($event)"
+
+    (ordenar)="ordenarPor($event)">
+  </app-productos-lista>
+</div>
