@@ -1,12 +1,8 @@
-
-
 <div class="container mt-4">
   <h2 class="mb-4">Gestión de Productos</h2>
 
   <!-- Formulario para agregar y editar productos -->
-  <app-productos-formulario 
-    (onAgregarProducto)="agregarProducto($event)" 
-    (onEditarProducto)="editarProducto($event)"
+  <app-productos-formulario (onAgregarProducto)="agregarProducto($event)" (onEditarProducto)="editarProducto($event)"
     [productoParaEditar]="productoParaEditar">
   </app-productos-formulario>
 
@@ -14,13 +10,27 @@
 
   <!-- Filtro de búsqueda -->
   <div class="mb-3">
-    <input 
-    type="text" 
-    class="form-control" 
-    placeholder="Buscar producto por nombre..." 
-    [(ngModel)]="filtroNombre" 
-    />
+    <input type="text" class="form-control" placeholder="Buscar producto por nombre..." [(ngModel)]="filtroNombre" />
   </div>
+
+  <!-- Filtros avanzados por precio y stock -->
+  <div class="row mb-3">
+    <div class="col-md-3">
+      <input type="number" class="form-control" placeholder="Precio mínimo" [(ngModel)]="precioMin" />
+    </div>
+    <div class="col-md-3">
+      <input type="number" class="form-control" placeholder="Precio máximo" [(ngModel)]="precioMax" />
+    </div>
+    <div class="col-md-3">
+      <input type="number" class="form-control" placeholder="Stock mínimo" [(ngModel)]="stockMin" />
+    </div>
+    <div class="col-md-3">
+      <input type="number" class="form-control" placeholder="Stock máximo" [(ngModel)]="stockMax" />
+    </div>
+  </div>
+
+
+
 
   <!-- Este mensaje se muestra abajo o donde están los productos -->
   <div *ngIf="mensajeExitoGeneral" class="alert alert-success">
@@ -34,14 +44,78 @@
 
 
 
-  <!-- Lista de productos -->
-  <app-productos-lista 
-    [productos]="productosFiltrados" 
-    [ordenColumna]="ordenActual"
-    [ordenAscendente]="ordenAscendente"
-    (onEliminarProducto)="eliminarProducto($event)"
-    (editar)="seleccionarProductoParaEditar($event)"
+  <!-- 📊 Resumen de productos -->
+  <div class="alert alert-info">
+    <strong>Resumen:</strong>
+    Total productos: {{ totalProductos }} |
+    Stock total: {{ stockTotal }} |
+    Productos con bajo stock: {{ productosBajoStock }}
+  </div>
 
+  <!-- 📊 Resumen general de productos -->
+  <div class="row mb-4 text-center">
+    <!-- Total productos -->
+    <div class="col-md-4">
+      <div class="card shadow-sm border-0 resumen-card bg-primary text-white">
+        <div class="card-body">
+          <h5 class="card-title">📦 Total Productos</h5>
+          <p class="card-text fs-4 fw-bold">{{ totalProductos }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stock total -->
+    <div class="col-md-4">
+      <div class="card shadow-sm border-0 resumen-card bg-success text-white">
+        <div class="card-body">
+          <h5 class="card-title">📊 Stock Total</h5>
+          <p class="card-text fs-4 fw-bold">{{ stockTotal }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Productos con bajo stock -->
+    <div class="col-md-4">
+      <div class="card shadow-sm border-0 resumen-card bg-warning text-dark">
+        <div class="card-body">
+          <h5 class="card-title">⚠️ Bajo Stock</h5>
+          <p class="card-text fs-4 fw-bold">{{ productosBajoStock }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+
+
+
+
+
+  <!-- Lista de productos -->
+  <app-productos-lista [productos]="productosFiltrados" [ordenColumna]="ordenActual" [ordenAscendente]="ordenAscendente"
+    (onEliminarProducto)="mostrarConfirmDelete($event)" (editar)="seleccionarProductoParaEditar($event)"
     (ordenar)="ordenarPor($event)">
   </app-productos-lista>
+
+
+  <!-- Modal de confirmación de eliminación -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title" id="confirmDeleteModalLabel">⚠️ Confirmar Eliminación</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        ¿Estás seguro de que quieres eliminar este producto?
+        <p class="fw-bold mt-2">{{ productoAEliminar?.nombre }}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-danger" (click)="confirmarEliminar()">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 </div>

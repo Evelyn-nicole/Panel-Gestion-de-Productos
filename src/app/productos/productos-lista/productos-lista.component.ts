@@ -19,16 +19,16 @@ export class ProductosListaComponent {
 
   //  Emitirá el ID del producto que se quiere eliminar/editar
   @Output() editar = new EventEmitter<Producto>();
-  @Output() onEliminarProducto = new EventEmitter<number>();
+  @Output() onEliminarProducto = new EventEmitter<Producto>();
   @Input() ordenColumna: keyof Producto | '' = '';
   @Input() ordenAscendente: boolean = true;
 
   @Output() ordenar = new EventEmitter<keyof Producto>(); // nuevo evento
 
-  // Esta función se ejecuta cuando se hace clic en el botón Eliminar
-   eliminarProducto(id: number) {
-    this.onEliminarProducto.emit(id);
-  }
+
+  onEliminar(producto: Producto) {
+  this.onEliminarProducto.emit(producto);
+}
 
   // Esta función se ejecuta cuando se hace clic en el botón Editar
   seleccionarProducto(producto: Producto) {

@@ -1,0 +1,9 @@
+/* 📊 Tarjetas del resumen */
+.resumen-card {
+  border-radius: 12px;        /* esquinas redondeadas */
+  transition: transform 0.5s; /* efecto suave */
+}
+
+.resumen-card:hover {
+  transform: translateY(-5px); /* animación al pasar el mouse */
+}
